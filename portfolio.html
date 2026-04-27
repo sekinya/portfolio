@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio | 業務自動化エンジニア</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+JP:wght@300;400;500&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d0d0d;
+    --surface: #161616;
+    --surface2: #1e1e1e;
+    --border: rgba(255,255,255,0.08);
+    --border-hover: rgba(255,255,255,0.18);
+    --text: #f0ede8;
+    --muted: #888480;
+    --accent: #b8ff57;
+    --accent2: #57c8ff;
+    --accent3: #ff9057;
+    --mono: 'DM Mono', monospace;
+    --sans: 'Noto Sans JP', sans-serif;
+    --display: 'Space Grotesk', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 3rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(13,13,13,0.85);
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 3rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-text {
+    position: absolute;
+    top: 50%;
+    left: -1rem;
+    transform: translateY(-50%);
+    font-family: var(--display);
+    font-size: clamp(8rem, 20vw, 18rem);
+    font-weight: 600;
+    color: rgba(255,255,255,0.025);
+    line-height: 1;
+    pointer-events: none;
+    white-space: nowrap;
+    letter-spacing: -0.03em;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 2rem;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-title {
+    font-family: var(--display);
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero-desc {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 3rem;
+  }
+
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    padding: 0.35rem 0.85rem;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+  }
+
+  .tag.accent { border-color: var(--accent); color: var(--accent); }
+  .tag.accent2 { border-color: var(--accent2); color: var(--accent2); }
+
+  .hero-scroll {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  .hero-scroll::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 3rem;
+    background: linear-gradient(to bottom, var(--muted), transparent);
+  }
+
+  /* ── SECTION ── */
+  section {
+    padding: 6rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .skill-cell {
+    background: var(--surface);
+    padding: 1.75rem;
+    transition: background 0.2s;
+  }
+
+  .skill-cell:hover { background: var(--surface2); }
+
+  .skill-icon {
+    font-family: var(--mono);
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .skill-name {
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .skill-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── WORKS ── */
+  .works-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .work-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .work-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 0;
+    background: var(--card-accent, var(--accent));
+    transition: height 0.3s;
+  }
+
+  .work-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-2px);
+  }
+
+  .work-card:hover::before { height: 100%; }
+
+  .work-number {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.25rem;
+  }
+
+  .work-title {
+    font-family: var(--display);
+    font-size: 1.15rem;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .work-meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  .work-result {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--card-accent, var(--accent));
+    background: rgba(184, 255, 87, 0.06);
+    border: 1px solid rgba(184, 255, 87, 0.15);
+    padding: 0.6rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 2px;
+  }
+
+  .work-card[data-accent="blue"] { --card-accent: var(--accent2); }
+  .work-card[data-accent="blue"] .work-result {
+    background: rgba(87, 200, 255, 0.06);
+    border-color: rgba(87, 200, 255, 0.15);
+  }
+
+  .work-card[data-accent="orange"] { --card-accent: var(--accent3); }
+  .work-card[data-accent="orange"] .work-result {
+    background: rgba(255, 144, 87, 0.06);
+    border-color: rgba(255, 144, 87, 0.15);
+  }
+
+  .work-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .work-tag {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    padding: 0.2rem 0.6rem;
+    background: var(--surface2);
+    border-radius: 2px;
+    color: var(--muted);
+  }
+
+  /* ── CONFIDENTIAL NOTE ── */
+  .confidential-note {
+    margin-top: 2rem;
+    padding: 1.5rem 2rem;
+    border: 1px dashed var(--border);
+    background: rgba(255,255,255,0.02);
+  }
+
+  .confidential-note p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .confidential-note strong {
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  /* ── ABOUT ── */
+  .about-layout {
+    display: grid;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .about-stats {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .stat-item {
+    border-top: 1px solid var(--border);
+    padding-top: 1.25rem;
+  }
+
+  .stat-value {
+    font-family: var(--display);
+    font-size: 2.5rem;
+    font-weight: 500;
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .about-text p {
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.9;
+    margin-bottom: 1.25rem;
+  }
+
+  .about-text p strong {
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  /* ── CONTACT ── */
+  .contact-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .contact-block h2 {
+    font-family: var(--display);
+    font-size: 2rem;
+    font-weight: 500;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .contact-link {
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: color 0.2s;
+  }
+
+  .contact-link:hover { color: var(--accent); }
+
+  .contact-link::before {
+    content: '→';
+    font-size: 0.7rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer p {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow { animation: fadeUp 0.6s ease both; }
+  .hero-title { animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-desc { animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-tags { animation: fadeUp 0.6s 0.3s ease both; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 0 1.5rem 4rem; }
+    section { padding: 4rem 1.5rem; }
+    .about-layout { grid-template-columns: 1fr; gap: 2rem; }
+    .about-stats { grid-template-columns: 1fr; }
+    .contact-block { padding: 2rem; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">// portfolio.v1</div>
+  <ul class="nav-links">
+    <li><a href="#skills">スキル</a></li>
+    <li><a href="#works">制作実績</a></li>
+    <li><a href="#about">プロフィール</a></li>
+    <li><a href="#contact">コンタクト</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg-text">AUTOMATE</div>
+
+  <div class="hero-eyebrow">available for freelance</div>
+
+  <h1 class="hero-title">
+    業務を自動化する<br>
+    <em>エンジニア</em>
+  </h1>
+
+  <p class="hero-desc">
+    VBA・GASを使った業務自動化・効率化が得意です。<br>
+    手作業によるミス・工数を減らし、業務の属人化を解消します。<br>
+  </p>
+
+  <div class="hero-tags">
+    <span class="tag accent">Access VBA / Excel VBA</span>
+    <span class="tag accent">Google Apps Script</span>
+    <span class="tag accent2">Python</span>
+    <span class="tag">業務自動化</span>
+    <span class="tag">データ処理</span>
+    <span class="tag">DB連携</span>
+    <span class="tag">Webアプリケーション</span>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">01 — skills</div>
+
+  <div class="skills-grid">
+    <div class="skill-cell">
+      <span class="skill-icon">🐍</span>
+      <div class="skill-name">Python</div>
+      <p class="skill-desc">データ処理・Webアプリケーションのバックエンド開発。pandas, NumPy, Matplotlib。</p>
+    </div>
+    <div class="skill-cell">
+      <span class="skill-icon">📊</span>
+      <div class="skill-name">Google Apps Script</div>
+      <p class="skill-desc">スプレッドシート業務, トリガー設定によるジョブ自動化。Google Workspaceの各サービスとの連携。</p>
+    </div>
+    <div class="skill-cell">
+      <span class="skill-icon">📈</span>
+      <div class="skill-name">Excel VBA</div>
+      <p class="skill-desc">データの入力、処理、表示を自動化。Excelpowerpivotの活用。</p>
+    </div>
+    <div class="skill-cell">
+      <span class="skill-icon">🗄️</span>
+      <div class="skill-name">Access VBA</div>
+      <p class="skill-desc">DB連携。テーブル設計・クエリ作成・フォーム開発。</p>
+    </div>
+  </div>
+</section>
+
+<!-- WORKS -->
+<section id="works">
+  <div class="section-label">02 — works</div>
+
+  <div class="works-grid">
+
+    <div class="work-card">
+      <div class="work-number">WORK — 001</div>
+      <h3 class="work-title">【車載PMO案件】バグ管理 × 資料自動作成</h3>
+      <p class="work-meta">
+        スプレッドシートのグラフをGoogleSlideの会議資料に転記するGASツール。毎朝の手動作成作業を自動化。<br>
+        【ワークフロー】<br>
+        1. JiraからCSV取得：BATファイル(curlコマンド)<br>
+        2. CSVの文字化け解消：BATファイル(バイナリ付与)<br>
+        3. Excelで集計：VBA<br>
+        4. スプレッドシートに転記：手動<br>
+        5. スプレッドシートのグラフ更新：スプレッドシート関数<br>
+        6. GoogleSlideにグラフ転記：GAS<br><br>
+        【制作期間】約1ヶ月（設計・実装・テスト・運用・保守）※項番6の部分
+      </p>
+      <div class="work-result">✦ 毎日3時間の作業 → 20分に改善</div>
+      <div class="work-tags">
+        <span class="work-tag">GAS</span>
+        <span class="work-tag">Google Sheets</span>
+        <span class="work-tag">Google Slides</span>
+        <span class="work-tag">トリガー</span>
+      </div>
+    </div>
+
+    <div class="work-card" data-accent="blue">
+      <div class="work-number">WORK — 002</div>
+      <h3 class="work-title">【RPA/DX専門企業選考ワーク】 メールリスト生成</h3>
+      <p class="work-meta">
+        スプレッドシート上の各テーブルから、条件に合致するメールアドレスを抽出してリスト化。<br>
+        【成果物】<a class="contact-link" href="https://drive.google.com/drive/u/0/folders/14NTeEwYbmGVBFdtk8XXrZ9MmjgeEe0Pw">メールリスト生成アプリ</a><br>
+        【制作期間】1日（実装・テスト）
+      </p>
+      <div class="work-result">✦ バリデーションにこだわり、実用を考慮した作成</div>
+      <div class="work-tags">
+        <span class="work-tag">GAS</span>
+        <span class="work-tag">Google Sheets</span>
+      </div>
+    </div>
+
+    <div class="work-card" data-accent="orange">
+      <div class="work-number">WORK — 003</div>
+      <h3 class="work-title">【SES企業研修ワーク】 Webアプリケーション × 購入リスト管理アプリ</h3>
+      <p class="work-meta">
+        FastAPIとReact(Vite)を使用した購入リスト管理Webアプリ。<br>
+        【成果物】<a class="contact-link" href="https://github.com/sekinya/terakoya_lesson5">購入リスト管理アプリ</a><br>
+        【制作期間】1週間（実装・テスト）
+      </p>
+      <div class="work-result">✦ CRUD機能の実装</div>
+      <div class="work-tags">
+        <span class="work-tag">Python</span>
+        <span class="work-tag">Node.js</span>
+        <span class="work-tag">FastAPI</span>
+        <span class="work-tag">React(Vite)</span>
+        <span class="work-tag">Bootstrap</span>
+      </div>
+    </div>
+
+    <div class="work-card">
+      <div class="work-number">WORK — 004</div>
+      <h3 class="work-title">【金融系業務ツール開発案件】DB改修 × 顧客管理情報登録ツール</h3>
+      <p class="work-meta">
+        既存のAccessDBに接続しているテーブルを、負荷軽減のためSQLServerに移行。Accessのテーブル設計・クエリ作成。<br><br>
+        【制作期間】4ヶ月（基本設計・詳細設計・プロトタイプ作成・実装・単体テスト・連結テスト・UAT・リリース準備）
+      </p>
+      <div class="work-result">✦ 共通関数化で保守性向上を考慮した作成</div>
+      <div class="work-tags">
+        <span class="work-tag">Access</span>
+        <span class="work-tag">SQLServer</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 持ち出し不可の作品について -->
+  <div class="confidential-note">
+    <p>
+      <strong>※ 業務案件について：</strong>
+      上記の一部は業務で携わったプロジェクトも含まれます(※持ち出し不可のため成果物の公開なし)。詳細はご商談の場でお話しできます。
+    </p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">03 — about</div>
+
+  <div class="about-layout">
+    <div class="about-stats">
+      <div class="stat-item">
+        <div class="stat-value" style="color: var(--accent);">スキル</div>
+        <div class="stat-label">対応可能な言語</div>
+        <div class="about-text">
+          <p>
+            ・Excel VBA
+            ・Access VBA
+            ・GAS （Google App Script）
+            ・SQL
+            ・HTML
+            ・CSS
+            ・Python
+            ・JavaScript
+            ・Java 他
+          </p>
+        </div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" style="color: var(--accent2);">ツール</div>
+        <div class="stat-label">現場経験のあるツール</div>
+        <div class="about-text">
+          <p>
+            ・Jira
+            ・Confluence
+            ・eazyBI
+            ・Slack
+            ・Google Workspace（スプレッドシート・ドキュメント・フォーム・カレンダー・Gmail等）
+            ・Microsoft 365（Excel・Word・PowerPoint・Outlook・Access等）
+            ・GitHub 他
+          </p>
+        </div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-value" style="color: var(--accent3);">資格</div>
+        <div class="stat-label">所持している資格</div>
+        <div class="about-text">
+          <p>
+            ・第一種運転免許普通自動車 (2015年10月)
+            ・中学校教諭一種免許状 (2019年3月)
+            ・高等学校教諭一種免許状 (2019年3月)
+            ・Office2019 Microsoft Office Specialist Word Associate (2021年8月)
+            ・Office2019 Microsoft Office Specialist Excel Associate (2021年8月)
+            ・ITパスポート（2021年11月）
+            ・Office2019 Microsoft Office Specialist PowerPoint Associate (2021年12月)
+            ・Office2019 Microsoft Office Specialist Associate (2021年12月)
+            ・Office2019 Microsoft Office Specialist Excel Expert (2022年1月)
+            ・VBAエキスパート Excel VBA Standard (2022年3月)
+            ・Office2019 Microsoft Office Specialist Word Expert (2022年5月)
+            ・Office2019 Microsoft Office Specialist Outlook Associate (2022年5月)
+            ・Office2019 Microsoft Office Specialist Access Expert (2022年5月)
+            ・Office2019 Microsoft Office Specialist Expert (2022年5月)
+            ・Python エンジニア認定基礎試験 (2023年11月)
+            ・情報セキュリティマネジメント (2025年6月)
+            ・VBAエキスパート Access VBA Standard (2025年11月)
+            ・VBAエキスパート Standard Crown（2025年11月）
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">04 — contact</div>
+
+  <div class="contact-block">
+    <div>
+      <h2>一緒に自動化しませんか</h2>
+      <p style="color: var(--muted); font-size: 0.9rem; margin-top: 0.5rem;">お気軽にご相談ください。まずは無料ヒアリングから。</p>
+    </div>
+    <div class="contact-links">
+      <a class="contact-link" href="https://github.com/sekinya">GitHub: github.com/sekinya</a>
+      <a class="contact-link" href="mailto:	r.t.s.violin.4.18@gmail.com">Email: 	r.t.s.violin.4.18@gmail.com</a>
+      <a class="contact-link" href="https://crowdworks.jp/public/employees/6952670">CrowdWorks プロフィール</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 S.T. — Automation Engineer</p>
+</footer>
+
+</body>
+</html>
